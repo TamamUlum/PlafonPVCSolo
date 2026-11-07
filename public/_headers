@@ -1,0 +1,21 @@
+# Cloudflare Pages Custom HTTP Headers
+
+# 1. Static Assets Cache Optimization (1 Year, Immutable)
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+/videos/*
+  Cache-Control: public, max-age=31536000, immutable
+/catalog/*
+  Cache-Control: public, max-age=2592000
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 2. Security Headers (Best Practice OWASP)
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+

@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "plafon-pvc-solo",
+  "pages_build_output_dir": "dist",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "vars": {
+    "ENVIRONMENT": "production",
+    "SITE_URL": "https://plafonpvcsolo.com"
+  }
+}
+

@@ -1,0 +1,4 @@
+# Cloudflare Pages 301 Edge Redirects
+/e-katalog    /produk/    301
+/e-katalog/   /produk/    301
+
