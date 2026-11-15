@@ -1,72 +1,100 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Breadcrumb from '../components/Breadcrumb.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
 
-const breadcrumbItems = [
-  { label: 'Kalkulator Biaya', href: '/kalkulator/' }
-];
+const breadcrumbItems = [{ label: "Kalkulator Biaya", href: "/kalkulator/" }];
 
 const packages = [
   {
-    id: 'pvc-standar',
-    name: 'Plafon PVC Minimalis Modern',
-    desc: 'Panel PVC glossy / doff motif polos & minimalis dengan rangka hollow galvalum anti-karat.',
+    id: "pvc-standar",
+    name: "Plafon PVC Minimalis Modern",
+    desc: "Panel PVC glossy / doff motif polos & minimalis dengan rangka hollow galvalum anti-karat.",
     priceMin: 145000,
     priceMax: 165000,
-    unit: 'm²',
-    badge: 'Paling Populer',
-    features: ['Panel PVC Tebal 8mm', 'Rangka Hollow Galvalum 2x4 & 4x4', 'Tahan Air & Anti Rayap', 'Garansi Pemasangan']
+    unit: "m²",
+    badge: "Paling Populer",
+    features: [
+      "Panel PVC Tebal 8mm",
+      "Rangka Hollow Galvalum 2x4 & 4x4",
+      "Tahan Air & Anti Rayap",
+      "Garansi Pemasangan",
+    ],
   },
   {
-    id: 'pvc-premium',
-    name: 'Plafon PVC Premium Motif Kayu',
-    desc: 'Tekstur serat kayu natural timbul & laminasi tebal anti gores untuk nuansa mewah.',
+    id: "pvc-premium",
+    name: "Plafon PVC Premium Motif Kayu",
+    desc: "Tekstur serat kayu natural timbul & laminasi tebal anti gores untuk nuansa mewah.",
     priceMin: 175000,
     priceMax: 195000,
-    unit: 'm²',
-    badge: 'Rekomendasi',
-    features: ['Panel PVC Premium Laminate', 'Pilihan Motif Serat Kayu', 'Rangka Double Hollow Kokoh', 'Garansi Pemasangan']
+    unit: "m²",
+    badge: "Rekomendasi",
+    features: [
+      "Panel PVC Premium Laminate",
+      "Pilihan Motif Serat Kayu",
+      "Rangka Double Hollow Kokoh",
+      "Garansi Pemasangan",
+    ],
   },
   {
-    id: 'pvc-drop-ceiling',
-    name: 'Plafon PVC Model Drop Ceiling',
-    desc: 'Model trap bertingkat 3D dengan slot lampu LED strip tersembunyi (indirect lighting).',
+    id: "pvc-drop-ceiling",
+    name: "Plafon PVC Model Drop Ceiling",
+    desc: "Model trap bertingkat 3D dengan slot lampu LED strip tersembunyi (indirect lighting).",
     priceMin: 195000,
     priceMax: 235000,
-    unit: 'm²',
-    badge: 'Desain Eksklusif',
-    features: ['Desain Trap Bertingkat', 'Slot Hidden LED Strip', 'Pengerjaan Presisi & Rapi', 'Garansi Pemasangan']
+    unit: "m²",
+    badge: "Desain Eksklusif",
+    features: [
+      "Desain Trap Bertingkat",
+      "Slot Hidden LED Strip",
+      "Pengerjaan Presisi & Rapi",
+      "Garansi Pemasangan",
+    ],
   },
   {
-    id: 'gypsum',
-    name: 'Plafon Gypsum Board Rapi',
-    desc: 'Papan gypsum Jayaboard / Elephant dilapisi kompon halus siap cat finishing mulus.',
+    id: "gypsum",
+    name: "Plafon Gypsum Board Rapi",
+    desc: "Papan gypsum Jayaboard / Elephant dilapisi kompon halus siap cat finishing mulus.",
     priceMin: 110000,
     priceMax: 135000,
-    unit: 'm²',
-    badge: 'Ekonomis',
-    features: ['Gypsum Board SNI', 'Rangka Metal Furing / Hollow', 'Kompon Mulus Tanpa Sambungan', 'Garansi Pemasangan']
+    unit: "m²",
+    badge: "Ekonomis",
+    features: [
+      "Gypsum Board SNI",
+      "Rangka Metal Furing / Hollow",
+      "Kompon Mulus Tanpa Sambungan",
+      "Garansi Pemasangan",
+    ],
   },
   {
-    id: 'wpc-wall',
-    name: 'Wall Panel WPC & Kisi Dinding',
-    desc: 'Dekorasi dinding aesthetic kayu modern untuk backdrop TV, ruang tamu, atau kantor.',
+    id: "wpc-wall",
+    name: "Wall Panel WPC & Kisi Dinding",
+    desc: "Dekorasi dinding aesthetic kayu modern untuk backdrop TV, ruang tamu, atau kantor.",
     priceMin: 210000,
     priceMax: 260000,
-    unit: 'm²',
-    badge: 'Interior Mewah',
-    features: ['Wood Plastic Composite', 'Tahan Rayap & Lembap', 'Sistem Interlock Presisi', 'Finishing Elegan']
+    unit: "m²",
+    badge: "Interior Mewah",
+    features: [
+      "Wood Plastic Composite",
+      "Tahan Rayap & Lembap",
+      "Sistem Interlock Presisi",
+      "Finishing Elegan",
+    ],
   },
   {
-    id: 'baja-ringan',
-    name: 'Kanopi & Rangka Baja Ringan',
-    desc: 'Struktur atap dan kanopi rumah kuat menggunakan baja ringan bersertifikat SNI.',
+    id: "baja-ringan",
+    name: "Kanopi & Rangka Baja Ringan",
+    desc: "Struktur atap dan kanopi rumah kuat menggunakan baja ringan bersertifikat SNI.",
     priceMin: 170000,
     priceMax: 225000,
-    unit: 'm²',
-    badge: 'Konstruksi Kuat',
-    features: ['Baja Ringan SNI', 'Pilihan Atap Spandek / Pasir', 'Anti Rayap & Karat', 'Garansi Struktur']
-  }
+    unit: "m²",
+    badge: "Konstruksi Kuat",
+    features: [
+      "Baja Ringan SNI",
+      "Pilihan Atap Spandek / Pasir",
+      "Anti Rayap & Karat",
+      "Garansi Struktur",
+    ],
+  },
 ];
 ---
 
@@ -77,15 +105,33 @@ const packages = [
 >
   <!-- Page Banner -->
   <section class="page-banner">
-    <video autoplay muted loop playsinline poster="/images/hero/hero-plafon-main.webp" class="banner-video-bg" aria-hidden="true">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="/images/hero/hero-plafon-main.webp"
+      class="banner-video-bg"
+      aria-hidden="true"
+    >
       <source src="/videos/banner-bg.mp4" type="video/mp4" />
     </video>
     <div class="banner-overlay" aria-hidden="true"></div>
 
     <div class="container">
-      <span class="badge-sub" style="background-color: rgba(255,255,255,0.15); color: #fed7aa; margin-bottom: 0.75rem;">Simulasi Biaya Multi-Ruangan</span>
-      <h1 class="page-banner-title">Kalkulator Estimasi Biaya Plafon &amp; Interior</h1>
-      <p class="page-banner-desc">Hitung estimasi kebutuhan biaya pemasangan terima jadi untuk satu ruangan atau seluruh ruangan dalam bangunan Anda di Solo Raya secara transparan dan instan.</p>
+      <span
+        class="badge-sub"
+        style="background-color: rgba(255,255,255,0.15); color: #fed7aa; margin-bottom: 0.75rem;"
+        >Simulasi Biaya Multi-Ruangan</span
+      >
+      <h1 class="page-banner-title">
+        Kalkulator Estimasi Biaya Plafon &amp; Interior
+      </h1>
+      <p class="page-banner-desc">
+        Hitung estimasi kebutuhan biaya pemasangan terima jadi untuk satu
+        ruangan atau seluruh ruangan dalam bangunan Anda di Solo Raya secara
+        transparan dan instan.
+      </p>
     </div>
   </section>
 
@@ -105,17 +151,33 @@ const packages = [
                 <span class="step-badge">1</span>
                 <div>
                   <h3 class="step-title">Pilih Jenis Material &amp; Layanan</h3>
-                  <p class="step-desc">Pilih paket pemasangan terima jadi sesuai kebutuhan proyek Anda.</p>
+                  <p class="step-desc">
+                    Pilih paket pemasangan terima jadi sesuai kebutuhan proyek
+                    Anda.
+                  </p>
                 </div>
               </div>
 
               <div class="service-select-wrap">
-                <select id="calcServiceSelect" class="calc-dropdown" aria-label="Pilih Jenis Material">
-                  {packages.map(pkg => (
-                    <option value={pkg.id} data-min={pkg.priceMin} data-max={pkg.priceMax} data-name={pkg.name}>
-                      {pkg.name} — Rp {pkg.priceMin.toLocaleString('id-ID')} s/d Rp {pkg.priceMax.toLocaleString('id-ID')} /{pkg.unit}
-                    </option>
-                  ))}
+                <select
+                  id="calcServiceSelect"
+                  class="calc-dropdown"
+                  aria-label="Pilih Jenis Material"
+                >
+                  {
+                    packages.map((pkg) => (
+                      <option
+                        value={pkg.id}
+                        data-min={pkg.priceMin}
+                        data-max={pkg.priceMax}
+                        data-name={pkg.name}
+                      >
+                        {pkg.name} — Rp {pkg.priceMin.toLocaleString("id-ID")}{" "}
+                        s/d Rp {pkg.priceMax.toLocaleString("id-ID")} /
+                        {pkg.unit}
+                      </option>
+                    ))
+                  }
                 </select>
               </div>
             </div>
@@ -126,7 +188,11 @@ const packages = [
                 <span class="step-badge">2</span>
                 <div>
                   <h3 class="step-title">Daftar Ruangan Proyek</h3>
-                  <p class="step-desc">Tambahkan seluruh ruangan dalam rumah atau bangunan Anda. Setiap ruangan dapat diberi nama dan diatur dimensinya secara individual.</p>
+                  <p class="step-desc">
+                    Tambahkan seluruh ruangan dalam rumah atau bangunan Anda.
+                    Setiap ruangan dapat diberi nama dan diatur dimensinya
+                    secara individual.
+                  </p>
                 </div>
               </div>
 
@@ -153,11 +219,19 @@ const packages = [
 
               <!-- Add Room Button -->
               <div class="add-room-action-wrap">
-                <button type="button" id="addRoomBtn" class="btn btn-outline btn-add-room">
-                  <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                  <span>+ Tambahkan Ruangan</span>
+                <button
+                  type="button"
+                  id="addRoomBtn"
+                  class="btn btn-outline btn-add-room"
+                >
+                  <svg class="icon-svg" viewBox="0 0 24 24"
+                    ><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></svg
+                  >
+                  <span>Tambahkan Ruangan</span>
                 </button>
-                <span class="add-room-hint">Bebas menambahkan ruangan tanpa batasan.</span>
+                <span class="add-room-hint"
+                  >Bebas menambahkan ruangan tanpa batasan.</span
+                >
               </div>
             </div>
 
@@ -167,7 +241,10 @@ const packages = [
                 <span class="step-badge">3</span>
                 <div>
                   <h3 class="step-title">Opsi Tambahan &amp; Asesoris</h3>
-                  <p class="step-desc">Sesuaikan kebutuhan perlengkapan lis profil, downlight, dan bongkar puing plafon.</p>
+                  <p class="step-desc">
+                    Sesuaikan kebutuhan perlengkapan lis profil, downlight, dan
+                    bongkar puing plafon.
+                  </p>
                 </div>
               </div>
 
@@ -176,19 +253,35 @@ const packages = [
                   <input type="checkbox" id="addonLis" checked />
                   <div class="addon-text">
                     <strong>Pasang Lis Profil Tepi PVC</strong>
-                    <span>Termasuk material lis profil keliling seluruh dinding ruangan (Rp 25.000 / m')</span>
+                    <span
+                      >Termasuk material lis profil keliling seluruh dinding
+                      ruangan (Rp 25.000 / m')</span
+                    >
                   </div>
                 </label>
 
                 <div class="addon-item-counter">
                   <div class="addon-text">
                     <strong>Titik Lampu Downlight LED</strong>
-                    <span>Lampu LED hemat energi + instalasi jalur kabel (Rp 65.000 / titik)</span>
+                    <span
+                      >Lampu LED hemat energi + instalasi jalur kabel (Rp 65.000
+                      / titik)</span
+                    >
                   </div>
                   <div class="counter-control">
-                    <button type="button" class="counter-btn" id="dlMinus" aria-label="Kurangi titik lampu">−</button>
+                    <button
+                      type="button"
+                      class="counter-btn"
+                      id="dlMinus"
+                      aria-label="Kurangi titik lampu">−</button
+                    >
                     <span class="counter-num" id="dlCount">4</span>
-                    <button type="button" class="counter-btn" id="dlPlus" aria-label="Tambah titik lampu">+</button>
+                    <button
+                      type="button"
+                      class="counter-btn"
+                      id="dlPlus"
+                      aria-label="Tambah titik lampu">+</button
+                    >
                   </div>
                 </div>
 
@@ -196,7 +289,10 @@ const packages = [
                   <input type="checkbox" id="addonBongkar" />
                   <div class="addon-text">
                     <strong>Jasa Bongkar Plafon Lama</strong>
-                    <span>Pembongkaran dan pembersihan puing plafon lama (Rp 25.000 / m²)</span>
+                    <span
+                      >Pembongkaran dan pembersihan puing plafon lama (Rp 25.000
+                      / m²)</span
+                    >
                   </div>
                 </label>
               </div>
@@ -206,7 +302,9 @@ const packages = [
           <!-- Right Column: Results & WhatsApp CTA -->
           <div class="calc-results-col">
             <div class="results-card">
-              <span class="results-kicker">Estimasi Biaya Proyek Keseluruhan</span>
+              <span class="results-kicker"
+                >Estimasi Biaya Proyek Keseluruhan</span
+              >
               <h3 class="results-headline">Total Perkiraan Biaya</h3>
               <div class="results-selected-pkg" id="selectedPkgBadge">
                 Plafon PVC Minimalis Modern
@@ -215,29 +313,42 @@ const packages = [
               <div class="results-metrics">
                 <div class="metric-cell">
                   <span class="metric-caption">Total Luas Proyek</span>
-                  <span class="metric-num" id="resTotalArea">0.00 <small>m²</small></span>
+                  <span class="metric-num" id="resTotalArea"
+                    >0.00 <small>m²</small></span
+                  >
                 </div>
                 <div class="metric-cell">
                   <span class="metric-caption">Total Keliling Dinding</span>
-                  <span class="metric-num" id="resTotalPerimeter">0.00 <small>m</small></span>
+                  <span class="metric-num" id="resTotalPerimeter"
+                    >0.00 <small>m</small></span
+                  >
                 </div>
               </div>
 
               <!-- Price Box -->
               <div class="price-estimate-box">
-                <span class="pe-label">Perkiraan Biaya (Material + Jasa Pasang):</span>
+                <span class="pe-label"
+                  >Perkiraan Biaya (Material + Jasa Pasang):</span
+                >
                 <div class="pe-numbers">
                   <span class="pe-val" id="resPriceMin">Rp 0</span>
                   <span class="pe-sep">s/d</span>
                   <span class="pe-val" id="resPriceMax">Rp 0</span>
                 </div>
-                <p class="pe-note">*Sudah termasuk bahan plafon, rangka hollow galvalum SNI, sekrup, dan upah tukang ahli.</p>
+                <p class="pe-note">
+                  *Sudah termasuk bahan plafon, rangka hollow galvalum SNI,
+                  sekrup, dan upah tukang ahli.
+                </p>
               </div>
 
               <!-- Room-by-room Breakdown -->
               <div class="rooms-breakdown-box">
                 <div class="rbb-header">
-                  <h4>Rincian Per Ruangan (<span id="roomCountBadge">1 Ruangan</span>):</h4>
+                  <h4>
+                    Rincian Per Ruangan (<span id="roomCountBadge"
+                      >1 Ruangan</span
+                    >):
+                  </h4>
                 </div>
                 <ul class="rbb-list" id="roomsBreakdownList">
                   <!-- Generated by JS -->
@@ -270,16 +381,30 @@ const packages = [
               <!-- Guarantees -->
               <div class="calc-guarantees">
                 <div class="g-item">
-                  <svg class="icon-svg g-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                  <span>Survei lokasi gratis &amp; konsultasi desain wilayah Solo Raya</span>
+                  <svg class="icon-svg g-icon" viewBox="0 0 24 24"
+                    ><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                    ></path></svg
+                  >
+                  <span
+                    >Survei lokasi gratis &amp; konsultasi desain wilayah Solo
+                    Raya</span
+                  >
                 </div>
                 <div class="g-item">
-                  <svg class="icon-svg g-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                  <svg class="icon-svg g-icon" viewBox="0 0 24 24"
+                    ><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                    ></path></svg
+                  >
                   <span>Rangka hollow galvalum anti-karat bergaransi</span>
                 </div>
                 <div class="g-item">
-                  <svg class="icon-svg g-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                  <span>Tukang aplikator berpengalaman &amp; pengerjaan rapi</span>
+                  <svg class="icon-svg g-icon" viewBox="0 0 24 24"
+                    ><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                    ></path></svg
+                  >
+                  <span
+                    >Tukang aplikator berpengalaman &amp; pengerjaan rapi</span
+                  >
                 </div>
               </div>
 
@@ -292,10 +417,17 @@ const packages = [
                   rel="noopener"
                   class="btn btn-whatsapp-green w-100 btn-lg"
                 >
-                  <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.33C9.33 7.33 9 7.41 8.74 7.69C8.47 7.96 7.74 8.64 7.74 10.05C7.74 11.45 8.77 12.81 8.91 13C9.05 13.2 10.92 16.08 13.8 17.32C14.49 17.61 15.02 17.79 15.44 17.93C16.13 18.15 16.76 18.12 17.26 18.04C17.81 17.96 18.96 17.35 19.2 16.67C19.44 16 19.44 15.41 19.37 15.3C19.3 15.19 19.11 15.12 18.82 14.98C18.53 14.84 17.11 14.14 16.85 14.05C16.59 13.95 16.4 13.91 16.21 14.2C16.02 14.5 15.48 15.12 15.31 15.3C15.15 15.5 14.99 15.52 14.7 15.37C14.41 15.23 13.49 14.93 12.4 13.96C11.55 13.2 10.98 12.27 10.82 11.98C10.65 11.7 10.8 11.54 10.95 11.4C11.08 11.27 11.24 11.06 11.39 10.89C11.53 10.72 11.58 10.6 11.68 10.4C11.77 10.2 11.72 10.03 11.65 9.89C11.58 9.74 11 8.33 10.76 7.76C10.53 7.21 10.3 7.28 10.13 7.27L9.53 7.33Z"/></svg>
-                  Konsultasikan Hasil Hitungan ke WhatsApp
+                  <svg class="icon-svg" viewBox="0 0 24 24"
+                    ><path
+                      d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.33C9.33 7.33 9 7.41 8.74 7.69C8.47 7.96 7.74 8.64 7.74 10.05C7.74 11.45 8.77 12.81 8.91 13C9.05 13.2 10.92 16.08 13.8 17.32C14.49 17.61 15.02 17.79 15.44 17.93C16.13 18.15 16.76 18.12 17.26 18.04C17.81 17.96 18.96 17.35 19.2 16.67C19.44 16 19.44 15.41 19.37 15.3C19.3 15.19 19.11 15.12 18.82 14.98C18.53 14.84 17.11 14.14 16.85 14.05C16.59 13.95 16.4 13.91 16.21 14.2C16.02 14.5 15.48 15.12 15.31 15.3C15.15 15.5 14.99 15.52 14.7 15.37C14.41 15.23 13.49 14.93 12.4 13.96C11.55 13.2 10.98 12.27 10.82 11.98C10.65 11.7 10.8 11.54 10.95 11.4C11.08 11.27 11.24 11.06 11.39 10.89C11.53 10.72 11.58 10.6 11.68 10.4C11.77 10.2 11.72 10.03 11.65 9.89C11.58 9.74 11 8.33 10.76 7.76C10.53 7.21 10.3 7.28 10.13 7.27L9.53 7.33Z"
+                    ></path></svg
+                  >
+                  Konsultasikan Estimasi Biaya
                 </a>
-                <span class="calc-disclaimer">*Estimasi awal bersifat transparan. Angka final dipastikan saat survei lokasi gratis.</span>
+                <span class="calc-disclaimer"
+                  >*Estimasi hanyalah perkiraan. Biaya tergantung model & bahan
+                  yang digunakan. Angka final dipastikan saat survei lokasi.</span
+                >
               </div>
             </div>
           </div>
@@ -304,24 +436,38 @@ const packages = [
         <!-- Guide Section -->
         <div class="calc-guide-section">
           <div class="text-center" style="margin-bottom: 2.5rem;">
-            <h3 class="section-title">Langkah Mudah Pemasangan di Griya Alfath</h3>
-            <p class="section-desc">Dari perhitungan mandiri multi-ruangan hingga hasil pemasangan rapi bergaransi di hunian Anda.</p>
+            <h3 class="section-title">
+              Langkah Mudah Pemasangan di Griya Alfath
+            </h3>
+            <p class="section-desc">
+              Dari perhitungan mandiri multi-ruangan hingga hasil pemasangan
+              rapi bergaransi di hunian Anda.
+            </p>
           </div>
           <div class="guide-steps-grid">
             <div class="guide-step-card">
               <div class="step-icon">📐</div>
               <h4>1. Hitung Seluruh Ruangan</h4>
-              <p>Masukkan ukuran setiap kamar, ruang keluarga, dan teras ke dalam kalkulator untuk mengetahui total luas dan perkiraan biaya.</p>
+              <p>
+                Masukkan ukuran setiap kamar, ruang keluarga, dan teras ke dalam
+                kalkulator untuk mengetahui total luas dan perkiraan biaya.
+              </p>
             </div>
             <div class="guide-step-card">
               <div class="step-icon">📲</div>
               <h4>2. Jadwalkan Survei Gratis</h4>
-              <p>Kirim rincian ruangan ke WhatsApp admin kami untuk menentukan jadwal survei pengukuran langsung ke lokasi bangunan Anda.</p>
+              <p>
+                Kirim rincian ruangan ke WhatsApp admin kami untuk menentukan
+                jadwal survei pengukuran langsung ke lokasi bangunan Anda.
+              </p>
             </div>
             <div class="guide-step-card">
               <div class="step-icon">🤝</div>
               <h4>3. Kunci Penawaran &amp; Pasang</h4>
-              <p>Pilih motif fisik dari sampel yang dibawa tim kami, sepakati RAB final, dan tim aplikator profesional siap memasang tepat waktu.</p>
+              <p>
+                Pilih motif fisik dari sampel yang dibawa tim kami, sepakati RAB
+                final, dan tim aplikator profesional siap memasang tepat waktu.
+              </p>
             </div>
           </div>
         </div>
@@ -996,61 +1142,63 @@ const packages = [
 
 <!-- Multi-Room Client Calculator Script -->
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const serviceSelect = document.getElementById('calcServiceSelect');
-    const roomsListContainer = document.getElementById('roomsListContainer');
-    const addRoomBtn = document.getElementById('addRoomBtn');
+  document.addEventListener("DOMContentLoaded", () => {
+    const serviceSelect = document.getElementById("calcServiceSelect");
+    const roomsListContainer = document.getElementById("roomsListContainer");
+    const addRoomBtn = document.getElementById("addRoomBtn");
 
-    const addonLis = document.getElementById('addonLis');
-    const addonBongkar = document.getElementById('addonBongkar');
-    const dlMinus = document.getElementById('dlMinus');
-    const dlPlus = document.getElementById('dlPlus');
-    const dlCount = document.getElementById('dlCount');
+    const addonLis = document.getElementById("addonLis");
+    const addonBongkar = document.getElementById("addonBongkar");
+    const dlMinus = document.getElementById("dlMinus");
+    const dlPlus = document.getElementById("dlPlus");
+    const dlCount = document.getElementById("dlCount");
 
-    const selectedPkgBadge = document.getElementById('selectedPkgBadge');
-    const resTotalArea = document.getElementById('resTotalArea');
-    const resTotalPerimeter = document.getElementById('resTotalPerimeter');
-    const resPriceMin = document.getElementById('resPriceMin');
-    const resPriceMax = document.getElementById('resPriceMax');
-    const roomCountBadge = document.getElementById('roomCountBadge');
-    const roomsBreakdownList = document.getElementById('roomsBreakdownList');
-    const mbPanels = document.getElementById('mbPanels');
-    const mbHollow = document.getElementById('mbHollow');
-    const mbLis = document.getElementById('mbLis');
-    const calcWaBtn = document.getElementById('calcWaBtn');
+    const selectedPkgBadge = document.getElementById("selectedPkgBadge");
+    const resTotalArea = document.getElementById("resTotalArea");
+    const resTotalPerimeter = document.getElementById("resTotalPerimeter");
+    const resPriceMin = document.getElementById("resPriceMin");
+    const resPriceMax = document.getElementById("resPriceMax");
+    const roomCountBadge = document.getElementById("roomCountBadge");
+    const roomsBreakdownList = document.getElementById("roomsBreakdownList");
+    const mbPanels = document.getElementById("mbPanels");
+    const mbHollow = document.getElementById("mbHollow");
+    const mbLis = document.getElementById("mbLis");
+    const calcWaBtn = document.getElementById("calcWaBtn");
 
-    if (!serviceSelect || !roomsListContainer || !addRoomBtn || !calcWaBtn) return;
+    if (!serviceSelect || !roomsListContainer || !addRoomBtn || !calcWaBtn)
+      return;
 
     let downlights = 4;
     let roomIdCounter = 1;
 
     // Room State List
     let rooms = [
-      { id: roomIdCounter++, name: 'Ruang Keluarga', length: 4.00, width: 3.50 }
+      { id: roomIdCounter++, name: "Ruang Keluarga", length: 4.0, width: 3.5 },
     ];
 
     function formatRupiah(num) {
-      return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+      return "Rp " + Math.round(num).toLocaleString("id-ID");
     }
 
     function formatDecimal(num) {
-      return num.toLocaleString('id-ID', {
+      return num.toLocaleString("id-ID", {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2,
       });
     }
 
     // Render Room Inputs in DOM
     function renderRooms() {
-      roomsListContainer.innerHTML = '';
+      roomsListContainer.innerHTML = "";
 
       rooms.forEach((room, index) => {
         const area = Math.round(room.length * room.width * 100) / 100;
-        const perimeter = Math.round(2 * (room.length + room.width) * 100) / 100;
+        const perimeter =
+          Math.round(2 * (room.length + room.width) * 100) / 100;
 
-        const card = document.createElement('div');
-        card.className = 'room-item-card';
-        card.setAttribute('data-id', room.id);
+        const card = document.createElement("div");
+        card.className = "room-item-card";
+        card.setAttribute("data-id", room.id);
 
         card.innerHTML = `
           <div class="room-card-top">
@@ -1065,12 +1213,16 @@ const packages = [
                 aria-label="Nama Ruangan ${index + 1}"
               />
             </div>
-            ${rooms.length > 1 ? `
+            ${
+              rooms.length > 1
+                ? `
               <button type="button" class="room-delete-btn" title="Hapus Ruangan">
                 <svg class="icon-svg" style="width:14px;height:14px" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                 <span>Hapus</span>
               </button>
-            ` : ''}
+            `
+                : ""
+            }
           </div>
 
           <div class="room-dims-row">
@@ -1114,17 +1266,17 @@ const packages = [
         `;
 
         // Event Listeners for this room
-        const nameInput = card.querySelector('.room-name-input');
-        const lengthInput = card.querySelector('.room-length-field');
-        const widthInput = card.querySelector('.room-width-field');
-        const deleteBtn = card.querySelector('.room-delete-btn');
+        const nameInput = card.querySelector(".room-name-input");
+        const lengthInput = card.querySelector(".room-length-field");
+        const widthInput = card.querySelector(".room-width-field");
+        const deleteBtn = card.querySelector(".room-delete-btn");
 
-        nameInput.addEventListener('input', (e) => {
+        nameInput.addEventListener("input", (e) => {
           room.name = e.target.value.trim() || `Ruangan ${index + 1}`;
           calculateAll();
         });
 
-        lengthInput.addEventListener('input', (e) => {
+        lengthInput.addEventListener("input", (e) => {
           let val = parseFloat(e.target.value);
           if (isNaN(val) || val <= 0) val = 0.5;
           room.length = Math.max(0.5, Math.min(100, val));
@@ -1132,7 +1284,7 @@ const packages = [
           calculateAll();
         });
 
-        widthInput.addEventListener('input', (e) => {
+        widthInput.addEventListener("input", (e) => {
           let val = parseFloat(e.target.value);
           if (isNaN(val) || val <= 0) val = 0.5;
           room.width = Math.max(0.5, Math.min(100, val));
@@ -1141,9 +1293,9 @@ const packages = [
         });
 
         if (deleteBtn) {
-          deleteBtn.addEventListener('click', () => {
+          deleteBtn.addEventListener("click", () => {
             if (rooms.length > 1) {
-              rooms = rooms.filter(r => r.id !== room.id);
+              rooms = rooms.filter((r) => r.id !== room.id);
               renderRooms();
               calculateAll();
             }
@@ -1157,7 +1309,7 @@ const packages = [
     function updateRoomPill(card, room) {
       const area = Math.round(room.length * room.width * 100) / 100;
       const perimeter = Math.round(2 * (room.length + room.width) * 100) / 100;
-      const pill = card.querySelector('.room-live-pill');
+      const pill = card.querySelector(".room-live-pill");
       if (pill) {
         pill.innerHTML = `
           <span>Luas: <strong>${formatDecimal(area)} m²</strong></span>
@@ -1182,14 +1334,19 @@ const packages = [
           name: room.name,
           dimensions: `${formatDecimal(room.length)}m × ${formatDecimal(room.width)}m`,
           area: `${formatDecimal(area)} m²`,
-          perimeter: `${formatDecimal(perimeter)} m`
+          perimeter: `${formatDecimal(perimeter)} m`,
         });
       });
 
       const selectedOpt = serviceSelect.options[serviceSelect.selectedIndex];
-      const priceMin = parseFloat(selectedOpt.getAttribute('data-min') || '145000');
-      const priceMax = parseFloat(selectedOpt.getAttribute('data-max') || '165000');
-      const pkgName = selectedOpt.getAttribute('data-name') || 'Plafon PVC Minimalis Modern';
+      const priceMin = parseFloat(
+        selectedOpt.getAttribute("data-min") || "145000",
+      );
+      const priceMax = parseFloat(
+        selectedOpt.getAttribute("data-max") || "165000",
+      );
+      const pkgName =
+        selectedOpt.getAttribute("data-name") || "Plafon PVC Minimalis Modern";
 
       // 1. Base Material & Installation Cost
       let baseMin = totalArea * priceMin;
@@ -1217,7 +1374,9 @@ const packages = [
       if (addonBongkar && addonBongkar.checked) {
         const bongkarCost = totalArea * 25000;
         addonsCost += bongkarCost;
-        appliedAddons.push(`Bongkar Plafon Lama (${formatDecimal(totalArea)}m²)`);
+        appliedAddons.push(
+          `Bongkar Plafon Lama (${formatDecimal(totalArea)}m²)`,
+        );
       }
 
       const grandTotalMin = baseMin + addonsCost;
@@ -1238,10 +1397,10 @@ const packages = [
       roomCountBadge.textContent = `${rooms.length} Ruangan`;
 
       // Update Room Breakdown List
-      roomsBreakdownList.innerHTML = '';
-      breakdownItems.forEach(item => {
-        const li = document.createElement('li');
-        li.className = 'rbb-item';
+      roomsBreakdownList.innerHTML = "";
+      breakdownItems.forEach((item) => {
+        const li = document.createElement("li");
+        li.className = "rbb-item";
         li.innerHTML = `
           <span class="rbb-room-title">${item.name} (${item.dimensions})</span>
           <span class="rbb-room-metrics">${item.area}</span>
@@ -1255,12 +1414,15 @@ const packages = [
       if (mbLis) mbLis.textContent = `± ${lisBarangCount} batang`;
 
       // Construct Custom WhatsApp Message
-      let roomsWaText = '';
+      let roomsWaText = "";
       breakdownItems.forEach((b, idx) => {
         roomsWaText += `  ${idx + 1}. ${b.name}: ${b.dimensions} (${b.area}, keliling ${b.perimeter})\n`;
       });
 
-      const addonText = appliedAddons.length > 0 ? `\n• Asesoris Tambahan: ${appliedAddons.join(', ')}` : '';
+      const addonText =
+        appliedAddons.length > 0
+          ? `\n• Asesoris Tambahan: ${appliedAddons.join(", ")}`
+          : "";
 
       const waMsg =
         `Halo Mas Otello Griya Alfath Solo Raya,\n` +
@@ -1276,36 +1438,38 @@ const packages = [
     }
 
     // Add Room Event
-    addRoomBtn.addEventListener('click', () => {
+    addRoomBtn.addEventListener("click", () => {
       const defaultNames = [
-        'Kamar Tidur Utama',
-        'Kamar Tidur 1',
-        'Kamar Tidur 2',
-        'Ruang Tamu',
-        'Dapur',
-        'Kamar Mandi',
-        'Ruang Makan',
-        'Teras',
-        'Ruang Kerja'
+        "Kamar Tidur Utama",
+        "Kamar Tidur 1",
+        "Kamar Tidur 2",
+        "Ruang Tamu",
+        "Dapur",
+        "Kamar Mandi",
+        "Ruang Makan",
+        "Teras",
+        "Ruang Kerja",
       ];
-      const nextName = defaultNames[(rooms.length) % defaultNames.length] || `Ruangan ${rooms.length + 1}`;
+      const nextName =
+        defaultNames[rooms.length % defaultNames.length] ||
+        `Ruangan ${rooms.length + 1}`;
       rooms.push({
         id: roomIdCounter++,
         name: nextName,
-        length: 3.50,
-        width: 3.00
+        length: 3.5,
+        width: 3.0,
       });
       renderRooms();
       calculateAll();
     });
 
     // Control Listeners
-    serviceSelect.addEventListener('change', calculateAll);
-    if (addonLis) addonLis.addEventListener('change', calculateAll);
-    if (addonBongkar) addonBongkar.addEventListener('change', calculateAll);
+    serviceSelect.addEventListener("change", calculateAll);
+    if (addonLis) addonLis.addEventListener("change", calculateAll);
+    if (addonBongkar) addonBongkar.addEventListener("change", calculateAll);
 
     if (dlMinus) {
-      dlMinus.addEventListener('click', () => {
+      dlMinus.addEventListener("click", () => {
         if (downlights > 0) {
           downlights--;
           dlCount.textContent = downlights;
@@ -1315,7 +1479,7 @@ const packages = [
     }
 
     if (dlPlus) {
-      dlPlus.addEventListener('click', () => {
+      dlPlus.addEventListener("click", () => {
         if (downlights < 50) {
           downlights++;
           dlCount.textContent = downlights;

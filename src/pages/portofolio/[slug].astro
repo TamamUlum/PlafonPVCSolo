@@ -1,0 +1,1254 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SocialEmbed from '../../components/SocialEmbed.astro';
+import { projects, getRelatedProjects, type Project } from '../../data/projects';
+import { clusteredPortfolioPages, type ClusteredPortfolioPage } from '../../data/portfolio-posts';
+
+export async function getStaticPaths() {
+  const flagshipPaths = projects.map((project) => ({
+    params: { slug: project.id },
+    props: {
+      project: {
+        ...project,
+        type: 'standalone',
+        isFlagship: true,
+        isIndexable: true,
+        slug: project.id
+      }
+    }
+  }));
+
+  const clusteredPaths = clusteredPortfolioPages.map((page) => ({
+    params: { slug: page.slug },
+    props: {
+      project: page
+    }
+  }));
+
+  return [...flagshipPaths, ...clusteredPaths];
+}
+
+const { project } = Astro.props as { project: any };
+const currentSlug = project.slug || project.id;
+const isFlagship = Boolean(project.isFlagship);
+const isCluster = project.type === 'cluster';
+const isStandalone = project.type === 'standalone' || isFlagship;
+const isIndexable = project.isIndexable !== false;
+const robotsTag = isIndexable ? 'index, follow' : 'noindex, follow';
+
+const relatedProjects = getRelatedProjects(project, 3);
+
+const breadcrumbItems = [
+  { label: 'Portofolio', href: '/portofolio/' },
+  { label: project.serviceCategoryLabel || project.category || 'Plafon PVC', href: `/portofolio/` },
+  { label: project.title, href: `/portofolio/${currentSlug}/` }
+];
+
+const pageTitle = project.seoTitle || `${project.title} — Griya Alfath`;
+const pageDesc = project.seoDescription || project.description;
+const canonicalUrl = `https://plafonpvcsolo.com/portofolio/${currentSlug}/`;
+
+const waMessage = encodeURIComponent(
+  `Halo Griya Alfath, saya tertarik dengan dokumentasi portofolio "${project.title}" di website dan ingin konsultasi konsep serupa untuk bangunan saya.`
+);
+
+// Structured Data: CreativeWork + BreadcrumbList
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": `${canonicalUrl}#creativework`,
+      "url": canonicalUrl,
+      "name": project.title,
+      "headline": project.title,
+      "description": project.description,
+      "image": project.image?.startsWith('http') ? project.image : `https://plafonpvcsolo.com${project.image || '/images/hero/hero-plafon-main.webp'}`,
+      "genre": project.serviceCategoryLabel || 'Plafon PVC',
+      "locationCreated": {
+        "@type": "Place",
+        "name": project.location || project.kabupaten || "Solo Raya, Jawa Tengah"
+      },
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Plafon PVC Solo by Griya Alfath",
+        "telephone": "+6282157249454",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Raya Delanggu Utara, Jl. Mondokaki No. 330, Dusun Kendon, Karang",
+          "addressLocality": "Klaten",
+          "addressRegion": "Jawa Tengah",
+          "addressCountry": "ID"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalUrl}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Beranda",
+          "item": "https://plafonpvcsolo.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Portofolio",
+          "item": "https://plafonpvcsolo.com/portofolio/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": project.title,
+          "item": canonicalUrl
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDesc}
+  currentPath={`/portofolio/${currentSlug}/`}
+  robots={robotsTag}
+>
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <!-- Breadcrumb -->
+  <Breadcrumb items={breadcrumbItems} />
+
+  <!-- Single Project / Cluster Page Container -->
+  <article class="single-project-page">
+    <div class="container">
+      
+      <!-- Header -->
+      <header class="project-header">
+        <div class="project-meta-badges">
+          <span class="badge-service">{project.serviceCategoryLabel || project.category}</span>
+          {isFlagship && (
+            <span class="badge-flagship">Proyek Flagship Unggulan</span>
+          )}
+          {isCluster && (
+            <span class="badge-cluster">Klaster Terpadu ({project.items?.length || 0} Proyek)</span>
+          )}
+          {project.buildingTypeLabel && (
+            <span class="badge-building">{project.buildingTypeLabel}</span>
+          )}
+          <span class="meta-location">
+            <svg class="meta-loc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            {project.location || project.kabupaten || 'Solo Raya'}
+          </span>
+        </div>
+
+        <h1 class="project-main-title">{project.title}</h1>
+        <p class="project-lead-desc">{project.description}</p>
+      </header>
+
+      <!-- Main Visual Hero (For Standalone or Flagship) -->
+      {isFlagship ? (
+        <div class="project-hero-media">
+          <figure class="hero-figure">
+            <img
+              src={project.image}
+              alt={project.title}
+              class="hero-img"
+              fetchpriority="high"
+            />
+            <figcaption class="hero-figcaption">
+              <span>Dokumentasi riil lapangan: {project.title}</span>
+              <a
+                href={project.image}
+                class="hero-zoom-btn"
+                data-lightbox
+                data-caption={`${project.title} — Dokumentasi Utama`}
+                aria-label="Perbesar foto dokumentasi utama"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
+                <span>Perbesar Foto</span>
+              </a>
+            </figcaption>
+          </figure>
+        </div>
+      ) : isStandalone && project.embed ? (
+        <div class="project-hero-embed">
+          <SocialEmbed embed={project.embed} title={project.title} sourceUrl={project.sourceUrl} />
+        </div>
+      ) : null}
+
+      <!-- Main Two-Column Layout -->
+      <div class="project-body-grid">
+        
+        <!-- Left Column: Editorial Narratives & Documentation -->
+        <div class="project-content-col">
+          
+          <!-- Introduction / Editorial Summary -->
+          <section class="editorial-section">
+            <h2 class="section-heading">
+              <span class="heading-num">01</span>
+              {isCluster ? 'Rangkuman Kurasi Wilayah & Layanan' : 'Ringkasan & Konteks Proyek'}
+            </h2>
+            <div class="prose-body">
+              <p>{project.narrative?.intro || project.introduction || project.description}</p>
+            </div>
+          </section>
+
+          <!-- Narrative Sections -->
+          {(project.narrative?.sections || project.sections)?.map((sec: any, idx: number) => (
+            <section class="editorial-section">
+              <h2 class="section-heading">
+                <span class="heading-num">0{idx + 2}</span>
+                {sec.heading}
+              </h2>
+              <div class="prose-body">
+                <p>{sec.content}</p>
+              </div>
+            </section>
+          ))}
+
+          <!-- IF CLUSTER: Render the sub-projects grid (max 6 items) -->
+          {isCluster && project.items && project.items.length > 0 && (
+            <section class="editorial-section cluster-subprojects-section">
+              <div class="cluster-section-header">
+                <h2 class="section-heading">
+                  <span class="heading-num">03</span>
+                  Daftar Dokumentasi Proyek Terkait ({project.items.length} Pengerjaan)
+                </h2>
+                <p class="section-subtext">
+                  Koleksi bukti pengerjaan riil tim aplikator Griya Alfath di wilayah {project.kabupaten}. Klik pada publikasi asli untuk melihat rekaman video atau foto dokumentasi lengkap di media sosial resmi kami.
+                </p>
+              </div>
+
+              <div class="cluster-subitems-grid">
+                {project.items.map((sub: any, sIdx: number) => (
+                  <div class="cluster-subcard">
+                    <div class="subcard-embed-wrap">
+                      {sub.embed ? (
+                        <SocialEmbed embed={sub.embed} title={sub.title} sourceUrl={sub.sourceUrl} />
+                      ) : (
+                        <img src={sub.image} alt={sub.title} class="subcard-fallback-img" loading="lazy" />
+                      )}
+                    </div>
+                    
+                    <div class="subcard-info">
+                      <div class="subcard-meta-row">
+                        <span class="subcard-loc-badge">
+                          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                          {sub.location}
+                        </span>
+                        <span class="subcard-srv-badge">{sub.service}</span>
+                      </div>
+
+                      <h3 class="subcard-title">{sub.title}</h3>
+                      <p class="subcard-snippet">{sub.captionSnippet}</p>
+
+                      <div class="subcard-footer">
+                        <a href={sub.sourceUrl} target="_blank" rel="noopener nofollow" class="subcard-source-link">
+                          <span>Lihat Publikasi Asli Lapangan</span>
+                          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/></svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <!-- IF FLAGSHIP: Supporting Photo Gallery -->
+          {isFlagship && project.gallery && project.gallery.length > 0 && (
+            <section class="editorial-section">
+              <h2 class="section-heading">
+                <span class="heading-num">04</span>
+                Galeri Dokumentasi Foto Resolusi Tinggi
+              </h2>
+              <p class="section-subtext">
+                Klik pada masing-masing foto di bawah ini untuk melihat detail dalam ukuran penuh melalui pratinjau lightbox.
+              </p>
+              <div class="project-gallery-grid">
+                {project.gallery.map((item: any) => (
+                  <figure class="gallery-item-card">
+                    <a
+                      href={item.src}
+                      class="gallery-img-link"
+                      data-lightbox
+                      data-caption={item.caption || item.alt}
+                      aria-label={`Buka pratinjau ${item.alt}`}
+                    >
+                      <img
+                        src={item.src}
+                        alt={item.alt}
+                        loading="lazy"
+                        class="gallery-thumbnail"
+                      />
+                      <span class="gallery-zoom-badge" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                      </span>
+                    </a>
+                    {item.caption && (
+                      <figcaption class="gallery-caption">
+                        {item.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <!-- External Attribution for Standalone -->
+          {isStandalone && !isFlagship && project.sourceUrl && (
+            <div class="attribution-box">
+              <div class="attribution-content">
+                <svg class="attrib-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+                <div class="attrib-text">
+                  <strong>Verifikasi Lapangan:</strong> Dokumentasi ini dipublikasikan secara resmi di akun media sosial Griya Alfath.
+                </div>
+              </div>
+              <a href={project.sourceUrl} target="_blank" rel="noopener nofollow" class="attrib-link">
+                Lihat Publikasi Asli
+              </a>
+            </div>
+          )}
+
+          <!-- Contextual Internal Linking: Related Products & Articles -->
+          <div class="contextual-links-block">
+            <div class="ctx-col">
+              <h3 class="ctx-title">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+                Material &amp; Produk Terkait
+              </h3>
+              <div class="ctx-items">
+                {project.relatedProducts && project.relatedProducts.map((prod: any) => (
+                  <a href={prod.url} class="ctx-item-card">
+                    {prod.image && (
+                      <img src={prod.image} alt={prod.name} class="ctx-thumb" loading="lazy" />
+                    )}
+                    <div class="ctx-item-info">
+                      <span class="ctx-brand">{prod.brand || 'Griya Alfath'}</span>
+                      <strong class="ctx-name">{prod.name}</strong>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div class="ctx-col">
+              <h3 class="ctx-title">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                Panduan &amp; Edukasi Terkait
+              </h3>
+              <div class="ctx-items">
+                {project.relatedArticles && project.relatedArticles.map((art: any) => (
+                  <a href={art.url} class="ctx-article-card">
+                    <strong class="ctx-art-title">{art.title}</strong>
+                    <span class="ctx-art-read">Baca Panduan</span>
+                  </a>
+                ))}
+                <a href="/kalkulator/" class="ctx-calc-banner">
+                  <div class="calc-banner-icon">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 2h5v3h-5V5zm-2 0v3H6V5h5zm-5 5h5v3H6v-3zm7 0h5v3h-5v-3zm-7 5h5v4H6v-4zm7 4v-4h5v4h-5z"/></svg>
+                  </div>
+                  <div>
+                    <strong>Simulasi Estimasi Biaya</strong>
+                    <span>Hitung kebutuhan ruangan Anda secara instan</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Structured Specifications & WhatsApp CTA Sidebar -->
+        <aside class="project-sidebar-col">
+          <div class="sidebar-sticky-panel">
+            
+            <!-- Specs Card -->
+            <div class="specs-card">
+              <div class="specs-card-header">
+                <svg class="spec-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                <h3 class="specs-title">Spesifikasi Pekerjaan</h3>
+              </div>
+              <dl class="specs-list">
+                {project.specs && project.specs.map((item: any) => (
+                  <div class="spec-row">
+                    <dt class="spec-label">{item.label}</dt>
+                    <dd class="spec-value">{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <!-- Consultation WhatsApp CTA -->
+            <div class="consultation-card">
+              <span class="consult-badge">Konsultasi Aplikator</span>
+              <h4 class="consult-title">Konsultasikan Proyek Serupa</h4>
+              <p class="consult-desc">
+                Tertarik dengan konsep {project.title}? Kirimkan ukuran atau denah ruangan Anda untuk mendapatkan estimasi material dan survei lokasi gratis di Solo Raya.
+              </p>
+              
+              <a
+                href={`https://wa.me/6282157249454?text=${waMessage}`}
+                class="btn btn-accent btn-block"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.33C9.33 7.33 9 7.41 8.74 7.69C8.47 7.96 7.74 8.64 7.74 10.05C7.74 11.45 8.77 12.81 8.91 13C9.05 13.2 10.92 16.08 13.8 17.32C14.49 17.61 15.02 17.79 15.44 17.93C16.13 18.15 16.76 18.12 17.26 18.04C17.81 17.96 18.96 17.35 19.2 16.67C19.44 16 19.44 15.41 19.37 15.3C19.3 15.19 19.11 15.12 18.82 14.98C18.53 14.84 17.11 14.14 16.85 14.05C16.59 13.95 16.4 13.91 16.21 14.2C16.02 14.5 15.48 15.12 15.31 15.3C15.15 15.5 14.99 15.52 14.7 15.37C14.41 15.23 13.49 14.93 12.4 13.96C11.55 13.2 10.98 12.27 10.82 11.98C10.65 11.7 10.8 11.54 10.95 11.4C11.08 11.27 11.24 11.06 11.39 10.89C11.53 10.72 11.58 10.6 11.68 10.4C11.77 10.2 11.72 10.03 11.65 9.89C11.58 9.74 11 8.33 10.76 7.76C10.53 7.21 10.3 7.28 10.13 7.27L9.53 7.33Z"/></svg>
+                Konsultasi WhatsApp Sekarang
+              </a>
+
+              <div class="consult-meta-list">
+                <div class="consult-meta-item">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                  <span>Survei &amp; Pengukuran Lokasi Gratis</span>
+                </div>
+                <div class="consult-meta-item">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                  <span>Garansi Resmi Pemasangan &gt; 1 Tahun</span>
+                </div>
+                <div class="consult-meta-item">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                  <span>Stok Material Siap Kirim Armada Toko</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Back to Portfolio Link -->
+            <div class="back-link-wrap">
+              <a href="/portofolio/" class="back-link">
+                Kembali ke Daftar Portofolio
+              </a>
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+  </article>
+
+  <!-- Related Projects Section -->
+  {relatedProjects.length > 0 && (
+    <section class="section-py bg-alt">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge-sub">Dokumentasi Terkait</span>
+          <h2 class="section-title">Proyek Serupa Lainnya di Solo Raya</h2>
+          <p class="section-desc">
+            Eksplorasi hasil pekerjaan tim Griya Alfath pada kategori layanan dan wilayah yang relevan.
+          </p>
+        </div>
+
+        <div class="portfolio-grid">
+          {relatedProjects.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .single-project-page {
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Project Header */
+  .project-header {
+    margin-bottom: 2rem;
+  }
+
+  .project-meta-badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .badge-service {
+    background-color: var(--primary);
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.02em;
+  }
+
+  .badge-flagship {
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.02em;
+  }
+
+  .badge-cluster {
+    background-color: #0d9488;
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.02em;
+  }
+
+  .badge-building {
+    background-color: #ea580c;
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.02em;
+  }
+
+  .meta-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.845rem;
+    font-weight: 600;
+    color: #475569;
+    background-color: #f1f5f9;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .meta-loc-icon {
+    width: 14px;
+    height: 14px;
+    fill: var(--accent);
+  }
+
+  .project-main-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-lead-desc {
+    font-size: 1.1rem;
+    color: #475569;
+    line-height: 1.6;
+    max-width: 1200px;
+  }
+
+  /* Hero Media */
+  .project-hero-media {
+    margin-bottom: 3rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: #0f2b48;
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-figure {
+    margin: 0;
+    position: relative;
+  }
+
+  .hero-img {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-figcaption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    background-color: #0f2b48;
+    color: #e2e8f0;
+    font-size: 0.845rem;
+  }
+
+  .hero-zoom-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .hero-zoom-btn:hover {
+    background-color: var(--accent);
+    color: #ffffff;
+  }
+
+  .hero-zoom-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .project-hero-embed {
+    margin-bottom: 3rem;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Project Body Grid */
+.project-body-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Default untuk HP/Mobile: 1 kolom penuh ke bawah */
+  gap: 2rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Aktifkan kembali 2 kolom HANYA untuk layar tablet besar / desktop (min 992px) */
+@media (min-width: 992px) {
+  .project-body-grid {
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+  }
+}
+
+  .project-sidebar-col {
+    position: relative;
+    height: 100%;
+  }
+
+  /* Editorial Sections */
+  .editorial-section {
+    margin-bottom: 2.75rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .heading-num {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--accent);
+    background-color: rgba(234, 88, 12, 0.1);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .section-subtext {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .prose-body p {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  /* Cluster Subprojects Grid (Max 6 Cards) */
+  .cluster-subprojects-section {
+    background: #ffffff;
+  }
+
+  .cluster-subitems-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .cluster-subcard {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+  }
+
+  .cluster-subcard:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .subcard-embed-wrap {
+    background: #0f2b48;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .subcard-fallback-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+  }
+
+  .subcard-info {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .subcard-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subcard-loc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    background-color: #f1f5f9;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .subcard-loc-badge svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--accent);
+  }
+
+  .subcard-srv-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .subcard-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.4;
+    margin: 0.25rem 0 0.5rem;
+  }
+
+  .subcard-snippet {
+    font-size: 0.845rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+  }
+
+  .subcard-footer {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 0.75rem;
+  }
+
+  .subcard-source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .subcard-source-link:hover {
+    text-decoration: underline;
+  }
+
+  .subcard-source-link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Gallery Grid (Flagship) */
+  .project-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .gallery-item-card {
+    margin: 0;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .gallery-img-link {
+    position: relative;
+    display: block;
+    height: 200px;
+    overflow: hidden;
+    background-color: #1e293b;
+  }
+
+  .gallery-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .gallery-img-link:hover .gallery-thumbnail {
+    transform: scale(1.05);
+  }
+
+  .gallery-zoom-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: rgba(15, 43, 72, 0.8);
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+    transition: var(--transition);
+  }
+
+  .gallery-img-link:hover .gallery-zoom-badge {
+    opacity: 1;
+    background-color: var(--accent);
+  }
+
+  .gallery-zoom-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .gallery-caption {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+    color: #475569;
+    line-height: 1.45;
+  }
+
+  /* Attribution Box */
+  .attribution-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.75rem;
+  }
+
+  .attribution-content {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .attrib-icon {
+    width: 20px;
+    height: 20px;
+    fill: #64748b;
+    flex-shrink: 0;
+  }
+
+  .attrib-text {
+    font-size: 0.845rem;
+    color: #475569;
+  }
+
+  .attrib-link {
+    font-size: 0.845rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .attrib-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Contextual Links Block */
+  .contextual-links-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .ctx-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1.15rem;
+  }
+
+  .ctx-title svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--accent);
+  }
+
+  .ctx-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ctx-item-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.65rem 0.85rem;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .ctx-item-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+  }
+
+  .ctx-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    background-color: #f1f5f9;
+  }
+
+  .ctx-item-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ctx-brand {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .ctx-name {
+    font-size: 0.875rem;
+    color: var(--primary);
+  }
+
+  .ctx-article-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .ctx-article-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+  }
+
+  .ctx-art-title {
+    font-size: 0.875rem;
+    color: var(--primary);
+    line-height: 1.4;
+  }
+
+  .ctx-art-read {
+    font-size: 0.785rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .ctx-calc-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #0f2b48 0%, #1e3a8a 100%);
+    color: #ffffff;
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .ctx-calc-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .calc-banner-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background-color: var(--accent);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .calc-banner-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ctx-calc-banner strong {
+    display: block;
+    font-size: 0.845rem;
+    color: #ffffff;
+  }
+
+  .ctx-calc-banner span {
+    font-size: 0.75rem;
+    color: #cbd5e1;
+  }
+
+  /* Right Sidebar Sticky */
+  .sidebar-sticky-panel {
+    position: sticky;
+    top: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Specs Card */
+  .specs-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .specs-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .spec-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--accent);
+  }
+
+  .specs-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+  }
+
+  .specs-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .spec-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .spec-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .spec-value {
+    margin: 0;
+    font-size: 0.885rem;
+    font-weight: 600;
+    color: var(--primary);
+    line-height: 1.4;
+  }
+
+  /* Consultation Card */
+  .consultation-card {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #ffffff;
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .consult-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fed7aa;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+
+  .consult-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
+
+  .consult-desc {
+    font-size: 0.845rem;
+    color: #cbd5e1;
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+
+  .btn-block {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .consult-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 1rem;
+  }
+
+  .consult-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.785rem;
+    color: #e2e8f0;
+  }
+
+  .consult-meta-item svg {
+    width: 14px;
+    height: 14px;
+    fill: #34d399;
+    flex-shrink: 0;
+  }
+
+  .back-link-wrap {
+    text-align: center;
+  }
+
+  .back-link {
+    font-size: 0.845rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  /* Related Projects Grid */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .project-body-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .sidebar-sticky-panel {
+      position: static;
+    }
+
+    .contextual-links-block {
+      grid-template-columns: 1fr;
+    }
+
+    .cluster-subitems-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .project-main-title {
+      font-size: 1.65rem;
+    }
+
+    .project-gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

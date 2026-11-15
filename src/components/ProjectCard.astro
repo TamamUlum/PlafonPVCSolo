@@ -6,31 +6,92 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const slug = (project as any).slug || project.id;
+const detailUrl = `/portofolio/${slug}/`;
 ---
 
-<div class="portfolio-card" data-category={project.categorySlug}>
-  <a
-    href={project.image}
-    class="portfolio-img-wrapper"
-    data-lightbox
-    data-caption={`${project.title} - ${project.category} (${project.location || 'Solo Raya'})`}
-  >
-    <img src={project.image} alt={project.title} loading="lazy" />
-    <span class="portfolio-tag">{project.category}</span>
-    <span class="portfolio-zoom-icon" aria-hidden="true">
-      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+<div
+  class="portfolio-card"
+  data-service={project.serviceCategory}
+  data-building={project.buildingType}
+  data-category={project.serviceCategory}
+>
+  <div class="portfolio-img-container">
+    <img
+      src={project.image}
+      alt={project.title}
+      loading="lazy"
+      class="portfolio-img"
+    />
+    
+    <!-- Service Tag -->
+    <span class="portfolio-tag">
+      {project.serviceCategoryLabel || project.category}
     </span>
-  </a>
+
+    <!-- Building Type Tag -->
+    {project.buildingTypeLabel && (
+      <span class="portfolio-building-tag">
+        {project.buildingTypeLabel}
+      </span>
+    )}
+
+    {((project as any).type === 'cluster') && (
+      <span class="portfolio-type-badge">
+        Klaster Terpadu
+      </span>
+    )}
+
+    <!-- Lightbox Preview Button (triggers lightbox without navigating) -->
+    <a
+      href={project.image}
+      class="portfolio-zoom-btn"
+      data-lightbox
+      data-caption={`${project.title} — ${project.serviceCategoryLabel || project.category} (${project.location || 'Solo Raya'})`}
+      aria-label={`Pratinjau foto ${project.title}`}
+      title="Perbesar foto"
+    >
+      <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+    </a>
+
+    <!-- Overlay link to detail page -->
+    <a href={detailUrl} class="portfolio-img-overlay-link" aria-label={`Buka detail dokumentasi ${project.title}`}></a>
+  </div>
+
   <div class="portfolio-info">
     <div class="portfolio-header-line">
-      <h4 class="portfolio-name">{project.title}</h4>
-      {project.location && <span class="portfolio-location">{project.location}</span>}
+      <h3 class="portfolio-name">
+        <a href={detailUrl} class="portfolio-title-link">
+          {project.title}
+        </a>
+      </h3>
     </div>
+
+    {project.location && (
+      <div class="portfolio-location-row">
+        <svg class="loc-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <span class="portfolio-location">{project.location}</span>
+      </div>
+    )}
+
     <p class="portfolio-desc">{project.description}</p>
+
+    <div class="portfolio-footer-row">
+      <a href={detailUrl} class="portfolio-detail-btn">
+        <span>Lihat Dokumentasi Lengkap</span>
+        <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </div>
 
-<style>
+<style is:global>
   .portfolio-card {
     background-color: #ffffff;
     border-radius: var(--radius-md);
@@ -40,103 +101,208 @@ const { project } = Astro.props;
     transition: var(--transition);
     display: flex;
     flex-direction: column;
+    position: relative;
+    height: 100%;
   }
 
   .portfolio-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
+    border-color: #cbd5e1;
   }
 
-  .portfolio-img-wrapper {
+  .portfolio-img-container {
     position: relative;
-    height: 200px;
+    height: 220px;
     overflow: hidden;
-    background-color: #1e293b;
-    display: block;
-    cursor: pointer;
+    background-color: #0f2b48;
   }
 
-  .portfolio-img-wrapper img {
+  .portfolio-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
   }
 
-  .portfolio-card:hover .portfolio-img-wrapper img {
+  .portfolio-card:hover .portfolio-img {
     transform: scale(1.06);
+  }
+
+  .portfolio-img-overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
   }
 
   .portfolio-tag {
     position: absolute;
     bottom: 0.75rem;
     left: 0.75rem;
-    background-color: rgba(15, 43, 72, 0.85);
+    background-color: rgba(15, 43, 72, 0.9);
     backdrop-filter: blur(4px);
     color: #ffffff;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     padding: 0.25rem 0.65rem;
     border-radius: var(--radius-sm);
     z-index: 2;
+    pointer-events: none;
+    letter-spacing: 0.02em;
   }
 
-  .portfolio-zoom-icon {
+  .portfolio-building-tag {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background-color: rgba(234, 88, 12, 0.92);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+    z-index: 2;
+    pointer-events: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .portfolio-type-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background-color: rgba(15, 43, 72, 0.9);
+    backdrop-filter: blur(4px);
+    color: #fed7aa;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    z-index: 2;
+    pointer-events: none;
+    border: 1px solid rgba(254, 215, 170, 0.35);
+    letter-spacing: 0.03em;
+  }
+
+  .portfolio-zoom-btn {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    background-color: rgba(15, 43, 72, 0.75);
+    background-color: rgba(15, 43, 72, 0.85);
     color: #ffffff;
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transform: scale(0.8);
+    opacity: 0.9;
+    transform: scale(0.9);
     transition: var(--transition);
-    z-index: 2;
+    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
 
-  .portfolio-card:hover .portfolio-zoom-icon {
+  .portfolio-zoom-btn:hover {
+    background-color: var(--accent);
+    color: #ffffff;
+    transform: scale(1.1);
     opacity: 1;
-    transform: scale(1);
+  }
+
+  .portfolio-zoom-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
   }
 
   .portfolio-info {
-    padding: 1.15rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
   }
 
   .portfolio-header-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.5rem;
     margin-bottom: 0.35rem;
   }
 
   .portfolio-name {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--primary);
-    line-height: 1.35;
+    line-height: 1.4;
+    margin: 0;
   }
 
-  .portfolio-location {
-    font-size: 0.75rem;
+  .portfolio-title-link {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .portfolio-title-link:hover {
     color: var(--accent);
+  }
+
+  .portfolio-location-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.65rem;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
     font-weight: 600;
+  }
+
+  .loc-icon {
+    width: 14px;
+    height: 14px;
+    fill: var(--accent);
     flex-shrink: 0;
   }
 
+  .portfolio-location {
+    color: #475569;
+  }
+
   .portfolio-desc {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     color: var(--text-muted);
-    line-height: 1.5;
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+  }
+
+  .portfolio-footer-row {
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .portfolio-detail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.845rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .portfolio-detail-btn .arrow-icon {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.25s ease;
+  }
+
+  .portfolio-card:hover .portfolio-detail-btn {
+    color: var(--accent);
+  }
+
+  .portfolio-card:hover .portfolio-detail-btn .arrow-icon {
+    transform: translateX(4px);
   }
 </style>
-

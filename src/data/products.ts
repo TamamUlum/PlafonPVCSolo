@@ -10,7 +10,7 @@ export interface Product {
   slug: string;
   name: string;
   brand: string;
-  brandSlug: 'lamiwood' | 'alfafon' | 'sakura' | 'jayaboard' | 'kencana' | 'honor-decoration' | 'motto' | 'janur';
+  brandSlug: 'lamiwood' | 'alfafon' | 'sakura' | 'jayaboard' | 'kencana' | 'honor-decoration' | 'motto' | 'janur' | 'batik' | 'golden' | 'indoking';
   category: string;
   categorySlug: 'plafon-pvc' | 'gypsum' | 'baja-ringan' | 'hollow' | 'panel-dinding' | 'aksesori';
   description: string;
@@ -444,8 +444,6 @@ export const products: Product[] = [
       { label: 'Panjang Standar', value: '3 meter & 4 meter' },
       { label: 'Aplikasi', value: 'Plafon Baffle, Louver Akustik, Partisi Kisi-kisi' }
     ],
-    pdfCatalog: '/catalog/7. Katalog Hollow Kisi-kisi PT. Honor Decoration.pdf',
-    catalogName: 'Katalog Hollow Kisi-kisi PT. Honor Decoration.pdf',
     relatedSlugs: ['plafon-pvc-lamiwood', 'janur-wall-panel', 'motto-wallboard']
   },
 
@@ -744,5 +742,116 @@ export const products: Product[] = [
     pdfCatalog: '/catalog/2. Katalog JANUR Wall Panel.pdf',
     catalogName: 'Katalog JANUR Wall Panel.pdf',
     relatedSlugs: ['janur-lis-pigura', 'wall-panel-pvc-board', 'plafon-pvc-lamiwood']
+  },
+  // 9. BRAND: GOLDEN
+  {
+    id: 'plafon-pvc-golden',
+    slug: 'plafon-pvc-golden',
+    name: 'Plafon PVC Golden Solo',
+    brand: 'GOLDEN',
+    brandSlug: 'golden',
+    category: 'Plafon PVC',
+    categorySlug: 'plafon-pvc',
+    badge: 'Ekonomis & Elegan',
+    description: 'Plafon PVC bermutu tinggi dengan sentuhan warna emas mewah, motif serat kayu natural, dan harga ekonomis yang sangat diminati di Solo Raya.',
+    fullDescription: 'Plafon PVC Golden menghadirkan kombinasi estetika modern dan efisiensi biaya. Dirancang khusus untuk tahan air, anti rayap, dan mudah dibersihkan tanpa memerlukan pengecatan berkala. Cocok untuk ruang tamu, kamar tidur, hingga teras rumah di iklim tropis Solo Raya.',
+    image: '/images/brand/brand-golden.webp',
+    media: [
+      {
+        type: 'image',
+        src: '/images/brand/brand-golden.webp',
+        alt: 'Plafon PVC Golden Solo Elegan',
+        caption: 'Plafon PVC Golden Solo'
+      }
+    ],
+    features: [
+      'Tahan air dan bebas risiko lapuk rembesan hujan',
+      'Anti rayap 100% dan tidak berjamur',
+      'Pilihan motif garis emas mewah dan kayu glossy',
+      'Pemasangan sistem interlock cepat dan presisi'
+    ],
+    specifications: [
+      { label: 'Merek Resmi', value: 'GOLDEN' },
+      { label: 'Bahan Material', value: 'Polyvinyl Chloride (PVC) Premium' },
+      { label: 'Lebar Panel', value: '20 cm' },
+      { label: 'Tebal Panel', value: '8 mm' },
+      { label: 'Panjang Batang', value: '3 meter & 4 meter' },
+      { label: 'Garansi', value: 'Garansi Resmi Pemasangan Griya Alfath' }
+    ],
+    relatedSlugs: ['plafon-pvc-lamiwood', 'plafon-pvc-premium', 'plafon-pvc-sakura']
+  },
+  // 10. BRAND: INDOKING
+  {
+    id: 'plafon-pvc-indoking',
+    slug: 'plafon-pvc-indoking',
+    name: 'Plafon PVC Indoking Premium',
+    brand: 'INDOKING',
+    brandSlug: 'indoking',
+    category: 'Plafon PVC',
+    categorySlug: 'plafon-pvc',
+    badge: 'Kuat & Tahan Lama',
+    description: 'Material plafon PVC kokoh dengan formula anti pudar, tahan benturan, serta anti lembap yang ideal untuk hunian tinggal, masjid, dan gedung fasilitas umum.',
+    fullDescription: 'Indoking Plafon PVC dikenal dengan kepadatan polimernya yang tangguh, memberikan proteksi maksimal terhadap kelembapan tinggi dan rembesan atap. Permukaannya dilapisi UV protection sehingga warnanya tetap cemerlang selama bertahun-tahun tanpa kusam.',
+    image: '/images/brand/brand-indoking.webp',
+    media: [
+      {
+        type: 'image',
+        src: '/images/brand/brand-indoking.webp',
+        alt: 'Plafon PVC Indoking Premium Kokoh',
+        caption: 'Plafon PVC Indoking'
+      }
+    ],
+    features: [
+      'Kepadatan PVC padat tidak mudah pecah saat pemasangan',
+      'Tahan air 100% dan anti rayap permanen',
+      'Permukaan glossy tahan debu dan mudah dilap',
+      'Pilihan motif marmer elegan dan kayu natural'
+    ],
+    specifications: [
+      { label: 'Merek Resmi', value: 'INDOKING' },
+      { label: 'Bahan Material', value: 'High Grade Polyvinyl Chloride' },
+      { label: 'Lebar Panel', value: '20 cm' },
+      { label: 'Tebal Panel', value: '8 mm' },
+      { label: 'Panjang Batang', value: '3 meter, 4 meter, 5 meter' },
+      { label: 'Aplikasi', value: 'Ruang Tamu, Kamar Mandi, Teras, Masjid & Aula' }
+    ],
+    relatedSlugs: ['plafon-pvc-lamiwood', 'plafon-pvc-golden', 'plafon-pvc-batik']
+  },
+  // 11. BRAND: BATIK
+  {
+    id: 'plafon-pvc-batik',
+    slug: 'plafon-pvc-batik',
+    name: 'Plafon PVC Motif Batik Solo',
+    brand: 'BATIK',
+    brandSlug: 'batik',
+    category: 'Plafon PVC',
+    categorySlug: 'plafon-pvc',
+    badge: 'Kearifan Lokal Solo',
+    description: 'Plafon PVC dan elemen ornamen khas bernuansa budaya Solo (Parang, Kawung, Mega Mendung) untuk interior berkarakter etnik modern.',
+    fullDescription: 'Membawa identitas budaya kota Surakarta ke dalam desain interior plafon. Plafon PVC Batik memadukan keunggulan teknologi PVC anti air dan anti rayap dengan seni motif batik tradisional Jawa, menciptakan nuansa ruangan yang hangat, berwibawa, dan sarat nilai seni tinggi.',
+    image: '/images/brand/brand-batik.webp',
+    media: [
+      {
+        type: 'image',
+        src: '/images/brand/brand-batik.webp',
+        alt: 'Plafon PVC Motif Batik Solo Tradisional Modern',
+        caption: 'Plafon PVC Batik'
+      }
+    ],
+    features: [
+      'Desain motif batik khas Solo yang autentik dan berkelas',
+      'Anti air dan tahan rayap 100%',
+      'Bisa dikombinasikan dengan drop ceiling dan lampu LED warm white',
+      'Perawatan sangat praktis tanpa perlu pelitur atau cat ulang'
+    ],
+    specifications: [
+      { label: 'Merek Resmi', value: 'BATIK' },
+      { label: 'Bahan Material', value: 'PVC Composite Bertekstur' },
+      { label: 'Motif Unggulan', value: 'Parang Rusak, Kawung, Kembang, dan Ornamen Solo' },
+      { label: 'Lebar Panel', value: '20 cm' },
+      { label: 'Tebal Panel', value: '8 mm' },
+      { label: 'Panjang Batang', value: '3 meter & 4 meter' }
+    ],
+    relatedSlugs: ['plafon-pvc-lamiwood', 'plafon-pvc-premium', 'plafon-pvc-indoking']
   }
 ];

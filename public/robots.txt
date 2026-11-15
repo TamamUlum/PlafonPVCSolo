@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://plafonpvcsolo.com/sitemap.xml
-
+Sitemap: https://plafonpvcsolo.com/sitemap-articles.xml

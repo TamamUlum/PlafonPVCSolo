@@ -9,13 +9,15 @@ interface Props {
   description?: string;
   currentPath?: string;
   image?: string;
+  robots?: string;
 }
 
 const {
   title,
   description = 'Distributor dan supplier material plafon PVC, gypsum, baja ringan, galvalum, serta jasa pemasangan profesional bergaransi untuk hunian dan proyek di Solo Raya.',
   currentPath = Astro.url.pathname,
-  image = '/images/hero/hero-plafon-main.webp'
+  image = '/images/hero/hero-plafon-main.webp',
+  robots = 'index, follow'
 } = Astro.props;
 
 const siteUrl = 'https://plafonpvcsolo.com';
@@ -70,7 +72,7 @@ const schemaLocalBusiness = {
   ],
   "sameAs": [
     "https://www.instagram.com/plafonpvcsolo/",
-    "https://www.facebook.com/plafonpvcsolo/",
+    "https://www.facebook.com/plavonpvcsolo/",
     "https://www.threads.net/@plafonpvcsolo",
     "https://www.tiktok.com/@plafonpvcsolo",
     "https://www.youtube.com/@PlafonPVCAlfath"
@@ -86,6 +88,7 @@ const schemaLocalBusiness = {
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalUrl} />
+  <meta name="robots" content={robots} />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />

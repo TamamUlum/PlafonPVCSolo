@@ -154,7 +154,7 @@ const articleSchema = {
                   <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.33C9.33 7.33 9 7.41 8.74 7.69C8.47 7.96 7.74 8.64 7.74 10.05C7.74 11.45 8.77 12.81 8.91 13C9.05 13.2 10.92 16.08 13.8 17.32C14.49 17.61 15.02 17.79 15.44 17.93C16.13 18.15 16.76 18.12 17.26 18.04C17.81 17.96 18.96 17.35 19.2 16.67C19.44 16 19.44 15.41 19.37 15.3C19.3 15.19 19.11 15.12 18.82 14.98C18.53 14.84 17.11 14.14 16.85 14.05C16.59 13.95 16.4 13.91 16.21 14.2C16.02 14.5 15.48 15.12 15.31 15.3C15.15 15.5 14.99 15.52 14.7 15.37C14.41 15.23 13.49 14.93 12.4 13.96C11.55 13.2 10.98 12.27 10.82 11.98C10.65 11.7 10.8 11.54 10.95 11.4C11.08 11.27 11.24 11.06 11.39 10.89C11.53 10.72 11.58 10.6 11.68 10.4C11.77 10.2 11.72 10.03 11.65 9.89C11.58 9.74 11 8.33 10.76 7.76C10.53 7.21 10.3 7.28 10.13 7.27L9.53 7.33Z"/></svg>
                   <span>{article.ctaButtonText}</span>
                 </a>
-                <a href="/kalkulator/" class="btn btn-outline">
+                <a href="/kalkulator/" class="btn btn-outline btn-solid-calc btn-lg">
                   <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 2h5v3h-5V5zm-2 0v3H6V5h5zm-5 5h5v3H6v-3zm7 0h5v3h-5v-3zm-7 5h5v4H6v-4zm7 4v-4h5v4h-5z"/></svg>
                   <span>Hitung Estimasi Biaya</span>
                 </a>
@@ -264,6 +264,10 @@ const articleSchema = {
       });
     });
   </script>
+
+  <!-- External Embed Scripts for Social Media -->
+  <script is:inline async defer src="//www.instagram.com/embed.js"></script>
+  <script is:inline async src="https://www.tiktok.com/embed.js"></script>
 </BaseLayout>
 
 <style>
@@ -314,7 +318,7 @@ const articleSchema = {
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: 3.5rem;
-    align-items: start;
+    align-items: stretch;
   }
 
   /* Main Column */
@@ -398,6 +402,35 @@ const articleSchema = {
     color: var(--primary);
   }
 
+  .article-body-content :global(figure.article-figure) {
+    margin: 2.25rem 0;
+    text-align: center;
+  }
+
+  .article-body-content :global(figure.article-figure img.article-img) {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .article-body-content :global(figure.article-figure figcaption) {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    font-style: italic;
+    line-height: 1.5;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  .article-body-content :global(.article-social-card) {
+    margin: 2.5rem 0;
+  }
+
   /* Mobile TOC Accordion */
   .mobile-toc-wrapper {
     display: none;
@@ -456,6 +489,7 @@ const articleSchema = {
   /* Desktop Sticky TOC */
   .article-sidebar-col {
     position: relative;
+    height: 100%;
   }
 
   .sticky-toc-card {
@@ -466,18 +500,6 @@ const articleSchema = {
     border-radius: var(--radius-lg);
     padding: 1.5rem;
     box-shadow: var(--shadow-sm);
-    max-height: calc(100vh - 110px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  .sticky-toc-card::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  .sticky-toc-card::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
-    border-radius: 4px;
   }
 
   .toc-header {
@@ -509,8 +531,6 @@ const articleSchema = {
     display: flex;
     flex-direction: column;
     gap: 0.45rem;
-    max-height: 50vh;
-    overflow-y: auto;
   }
 
   .toc-item-level-3 {
@@ -603,6 +623,34 @@ const articleSchema = {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+
+  .btn-solid-calc,
+  .article-cta-box .btn-outline {
+    background-color: #ffffff !important;
+    color: var(--primary) !important;
+    border: 2px solid #ffffff !important;
+    font-weight: 800;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-solid-calc .icon-svg,
+  .article-cta-box .btn-outline .icon-svg {
+    fill: var(--primary) !important;
+  }
+
+  .btn-solid-calc:hover,
+  .article-cta-box .btn-outline:hover {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(230, 81, 0, 0.4);
+  }
+
+  .btn-solid-calc:hover .icon-svg,
+  .article-cta-box .btn-outline:hover .icon-svg {
+    fill: #ffffff !important;
   }
 
   /* Navigation between articles */
