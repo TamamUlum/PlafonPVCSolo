@@ -13,6 +13,9 @@
   "dependencies": {
     "astro": "^7.4.1"
   },
+  "optionalDependencies": {
+    "@rolldown/binding-linux-x64-gnu": "1.2.14"
+  },
   "devDependencies": {
     "wrangler": "^4.151.3"
   }
