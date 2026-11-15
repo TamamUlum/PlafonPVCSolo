@@ -48,3 +48,12 @@ scratch/
 *.tmp
 *.bak
 
+# Migration, Audit & Temporary Build Data
+*.csv
+audit-seo-aeo-geo/
+*-report.md
+*-summary.md
+portfolio-import-summary.md
+migration-work-area/
+
+
