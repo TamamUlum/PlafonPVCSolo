@@ -166,9 +166,9 @@ const homeArticles = articles.slice(0, 3);
             </div>
           </div>
 
-          <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <div class="about-actions btn-group-responsive">
             <a href="/tentang-kami/" class="btn btn-primary">
-              Pelajari Profil Lengkap
+              Lihat Profil Lengkapnya
               <svg class="icon-svg" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
             </a>
             <a href="https://wa.me/6282157249454?text=Halo%20Griya%20Alfath,%20saya%20ingin%20konsultasi%20mengenai%20material%20dan%20pemasangan%20plafon%20PVC" class="btn btn-outline" target="_blank" rel="noopener">
@@ -302,12 +302,8 @@ const homeArticles = articles.slice(0, 3);
               <span class="brand-category-badge">{b.category}</span>
             </div>
           ))}
-        </div>
-
-        <div class="text-center" style="margin-top: 2rem;">
           <a href="/brand/" class="btn btn-outline">
-            Lihat Informasi Lengkap Seluruh Brand
-            <svg class="icon-svg" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+            Lihat Brand Lainnya
           </a>
         </div>
       </div>
@@ -396,7 +392,7 @@ const homeArticles = articles.slice(0, 3);
     <div class="container">
       <div class="section-header text-center">
         <span class="badge-sub">Portofolio Kami</span>
-        <h2 class="section-title">Dokumentasi Proyek Pemasangan Riil</h2>
+        <h2 class="section-title">Dokumentasi Proyek Pemasangan</h2>
         <p class="section-desc">
           Contoh hasil pengerjaan pemasangan plafon PVC dan interior yang telah selesai dikerjakan oleh tim Griya Alfath.
         </p>
@@ -957,6 +953,54 @@ const homeArticles = articles.slice(0, 3);
     color: var(--text-muted);
     line-height: 1.4;
     display: block;
+  }
+
+  /* ABOUT SECTION ACTION BUTTONS (MOBILE-FIRST) */
+  .about-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    box-sizing: border-box;
+    margin-top: 1.5rem;
+  }
+
+  .about-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    min-height: 50px;
+    box-sizing: border-box;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .about-actions .btn .icon-svg {
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
+  @media (min-width: 769px) {
+    .about-actions {
+      flex-direction: row;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .about-actions .btn {
+      flex: 1 1 0;
+      width: auto;
+      min-height: 58px;
+      padding: 0.85rem 1.25rem;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
   }
 
   /* KEUNGGULAN */
@@ -1589,6 +1633,8 @@ const homeArticles = articles.slice(0, 3);
   }
 
   @media (max-width: 768px) {
+    .about-actions { flex-direction: column; width: 100%; gap: 12px; }
+    .about-actions .btn { width: 100%; min-height: 50px; justify-content: center; }
     .calc-teaser-banner { padding: 2.75rem 1.25rem; border-radius: 16px; }
     .calc-teaser-features { flex-direction: column; width: 100%; max-width: 380px; gap: 0.75rem; margin-bottom: 2rem; }
     .ct-feat { width: 100%; justify-content: flex-start; padding: 0.75rem 1.15rem; }

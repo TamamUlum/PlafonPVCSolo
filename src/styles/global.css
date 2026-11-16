@@ -345,6 +345,53 @@ ol {
   color: #ffffff;
 }
 
+/* Responsive Two-Button Action Group (Mobile-First) */
+.btn-group-responsive {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.btn-group-responsive .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  min-height: 50px;
+  box-sizing: border-box;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+.btn-group-responsive .btn .icon-svg {
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+@media (min-width: 769px) {
+  .btn-group-responsive {
+    flex-direction: row;
+    gap: 18px;
+    align-items: stretch;
+  }
+
+  .btn-group-responsive .btn {
+    flex: 1 1 0;
+    width: auto;
+    min-height: 58px;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+}
+
 /* Icon Helper */
 .icon-svg {
   width: 1.25rem;
